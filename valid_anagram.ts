@@ -33,6 +33,7 @@ function isAnagramV1(s: string, t: string): boolean {
   return true;
 }
 
+// Fefined hash map version
 // Version 2
 function isAnagramV2(s: string, t: string): boolean {
   if (s.length !== t.length) return false;
@@ -50,4 +51,12 @@ function isAnagramV2(s: string, t: string): boolean {
     if (map.get(char)! < 0) return false;
   }
   return true;
+}
+
+// Sorting version
+// Version 3
+function isAnagramV3(s: string, t: string): boolean {
+  const sortedS = [...s].sort().join("");
+  const sortedT = [...t].sort().join("");
+  return sortedS === sortedT;
 }
