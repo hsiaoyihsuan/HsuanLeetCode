@@ -62,3 +62,59 @@ function pacificAtlanticV1(heights: number[][]): number[][] {
     return false;
   }
 }
+
+// Version 2: Strating from the edges, use DFS to find the points in the opposite way.
+// Time: O(M x N). Space: O(M x N) for pacific and atlantic. O(M + N) for DFS
+function pacificAtlanticV2(heights: number[][]): number[][] {
+  const rows = heights.length;
+  const cols = heights[0].length;
+  const pacific = Array.from({length: rows}, () => Array(cols).fill(false));
+  const atlantic = Array.from({length: rows}, () => Array(cols).fill(false));
+  const result: [number, number][] = [];
+
+  function dfs(
+    r: number,
+    c: number,
+    visited: boolean[][],
+    prevHeight: number
+  ): void {
+    if (
+      r < 0 ||
+      c < 0 ||
+      r >= rows ||
+      c >= cols ||
+      visited[r][c] ||
+      heights[r][c] < prevHeight
+    ) {
+      return;
+    }
+
+    visited[r][c] = true;
+    for (const [dr, dc] of [
+      [1, 0],
+      [-1, 0],
+      [0, 1],
+      [0, -1],
+    ]) {
+      dfs(r + dr, c + dc, visited, heights[r][c]);
+    }
+  }
+
+  for (let r = 0; r < rows; r++) {
+    dfs(r, 0, pacific, heights[r][0]); // Left column (Pacific)
+    dfs(r, cols - 1, atlantic, heights[r][cols - 1]); // Right column (Atlantic)
+  }
+  for (let c = 0; c < cols; c++) {
+    dfs(0, c, pacific, heights[0][c]); // Top row (Pacific)
+    dfs(rows - 1, c, atlantic, heights[rows - 1][c]); // Bottom row (Atlantic)
+  }
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (pacific[r][c] && atlantic[r][c]) {
+        result.push([r, c]);
+      }
+    }
+  }
+  return result;
+}
