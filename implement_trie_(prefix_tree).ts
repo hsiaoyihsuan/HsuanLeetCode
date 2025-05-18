@@ -13,7 +13,7 @@ class TrieNode {
 }
 
 class Trie {
-  private root;
+  private root: TrieNode;
 
   constructor() {
     this.root = new TrieNode();
@@ -28,7 +28,7 @@ class Trie {
         node.children.set(char, new TrieNode());
       }
 
-      node = node.children.get(char);
+      node = node.children.get(char)!;
     }
     node.isEnd = true;
   }
@@ -40,7 +40,7 @@ class Trie {
     for (const char of chars) {
       if (!node.children.has(char)) return false;
 
-      node = node.children.get(char);
+      node = node.children.get(char)!;
     }
 
     return node.isEnd;
@@ -53,7 +53,7 @@ class Trie {
     for (const char of chars) {
       if (!node.children.has(char)) return false;
 
-      node = node.children.get(char);
+      node = node.children.get(char)!;
     }
 
     return true;
