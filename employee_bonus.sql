@@ -1,4 +1,5 @@
 -- 577. Employee Bonus
 SELECT name, bonus
-FROM Employee LEFT JOIN Bonus USING(empId)
-WHERE bonus < 1000 OR bonus IS NULL;
+FROM Employee
+LEFT JOIN Bonus USING (empId)
+WHERE bonus < 1000 OR bonus IS NULL
