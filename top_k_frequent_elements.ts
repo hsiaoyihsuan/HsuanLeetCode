@@ -1,5 +1,5 @@
 // 347. Top K Frequent Elements
-// 1st attempt: Use Map and normal sort
+// Use Map and normal sort
 // Time: O(n log n), Space: O(n)
 function topKFrequent(nums: number[], k: number): number[] {
   const map = new Map<number, number>();
@@ -11,28 +11,30 @@ function topKFrequent(nums: number[], k: number): number[] {
     .map(([num]) => num);
 }
 
-// 2nd attempt: Use frequency map and bucket sort
+// TODO: Use a more efficient approach with min-heap
+
+// Use frequency map and bucket sort
 // Time: O(n), Space: O(n)
-function topKFrequent(nums: number[], k: number): number[] {
+function topKFrequent2(nums: number[], k: number): number[] {
+  // Create a frequency map to count occurrences of each number
   const freqMap = new Map<number, number>();
   for (const num of nums) {
     freqMap.set(num, (freqMap.get(num) ?? 0) + 1);
   }
 
   //   Create buckets where the index represents the frequency
-  const buckets = Array(nums.length + 1)
-    .fill(null)
-    .map(() => []);
+  const buckets: number[][] = Array.from({length: nums.length + 1}, () => []);
 
   // Populate the buckets using the frequency map
-  for (const [num, freq] of freqMap.entries()) {
+  for (const [num, freq] of freqMap) {
     buckets[freq].push(num);
   }
 
   //   Traverse the buckets in reverse order (highest frequency first)
   const result: number[] = [];
-  for (let i = buckets.length - 1; i >= 0 && result.length < k; i--) {
+  for (let i = buckets.length - 1; i >= 0; i--) {
     result.push(...buckets[i]);
+    if (result.length >= k) break; // Stop when we have k elements
   }
 
   return result;
