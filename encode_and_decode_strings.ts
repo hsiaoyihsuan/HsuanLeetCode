@@ -3,19 +3,19 @@ function encode(strs: string[]): string {
   return strs.map((str) => `${str.length}#${str}`).join("");
 }
 
-function decode(s: string): string[] {
+function decode(str: string): string[] {
   const result: string[] = [];
-  let num: string[] = [];
-  for (let i = 0; i < s.length; i++) {
-    if (s[i] === "#") {
-      const count = parseInt(num.join(""));
-      num = [];
-      const word = s.slice(i + 1, i + 1 + count);
-      result.push(word);
-      i += count;
-    } else {
-      num.push(s[i]!);
+
+  let i = 0;
+  while (i < str.length) {
+    let j = i;
+    while (str[j] !== "#") {
+      j++;
     }
+
+    const size = parseInt(str.slice(i, j));
+    result.push(str.slice(j + 1, j + 1 + size));
+    i = j + 1 + size;
   }
   return result;
 }
