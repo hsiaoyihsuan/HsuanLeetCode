@@ -1,15 +1,12 @@
 // 141. Linked List Cycle
-/**
- * Definition for singly-linked list.
- * class ListNode {
- *     val: number
- *     next: ListNode | null
- *     constructor(val?: number, next?: ListNode | null) {
- *         this.val = (val===undefined ? 0 : val)
- *         this.next = (next===undefined ? null : next)
- *     }
- * }
- */
+class ListNode {
+  val: number;
+  next: ListNode | null;
+  constructor(val?: number, next?: ListNode | null) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
+  }
+}
 
 // Hash Set Version. Time: O(n), Space: O(n)
 function hasCycleV1(head: ListNode | null): boolean {
@@ -28,7 +25,7 @@ function hasCycleV1(head: ListNode | null): boolean {
 function hasCycle(head: ListNode | null): boolean {
   let slow = head;
   let fast = head;
-  while (fast && fast.next) {
+  while (slow && fast?.next) {
     slow = slow.next;
     fast = fast.next.next;
 
