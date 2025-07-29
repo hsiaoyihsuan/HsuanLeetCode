@@ -1,16 +1,5 @@
 // 19. Remove Nth Node From End of List
-// Time: o(n). Space: O(1)
-/**
- * Definition for singly-linked list.
- * class ListNode {
- *     val: number
- *     next: ListNode | null
- *     constructor(val?: number, next?: ListNode | null) {
- *         this.val = (val===undefined ? 0 : val)
- *         this.next = (next===undefined ? null : next)
- *     }
- * }
- */
+
 class ListNode {
   val: number;
   next: ListNode | null;
@@ -20,7 +9,7 @@ class ListNode {
   }
 }
 
-function removeNthFromEndV1(head: ListNode | null, n: number): ListNode | null {
+function removeNthFromEnd1(head: ListNode | null, n: number): ListNode | null {
   if (!head) return head;
 
   let count = 0;
@@ -47,7 +36,8 @@ function removeNthFromEndV1(head: ListNode | null, n: number): ListNode | null {
 
 // Use two pointers to find the node to remove.
 // The `left` pointer is positioned just before the target node.
-function removeNthFromEndV2(head: ListNode | null, n: number): ListNode | null {
+// Time: O(n), Space: O(1)
+function removeNthFromEnd2(head: ListNode | null, n: number): ListNode | null {
   // Create a dummy node to simplify edge cases (e.g., removing the head node)
   const dummy = new ListNode(0, head);
   let left: ListNode = dummy;
