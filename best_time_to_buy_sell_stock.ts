@@ -1,31 +1,31 @@
 // 121. Best Time to Buy and Sell Stock
-// Version 1
-function maxProfitV1(prices: number[]): number {
-  const profits: number[] = [];
+// Brute Force
+// Time: O(n ^ 2), Space: O(1)
+function maxProfit1(prices: number[]): number {
+  let result = 0;
   for (let i = 0; i < prices.length; i++) {
+    let buy = prices[i];
     for (let j = i + 1; j < prices.length; j++) {
-      if (prices[j] - prices[i] > 0) {
-        profits.push(prices[j] - prices[i]);
-      }
+      let sell = prices[j];
+      result = Math.max(result, sell - buy);
     }
   }
-  if (profits.length === 0) return 0;
-
-  return Math.max(...profits);
+  return result;
 }
 
-// Version 2
-function maxProfitV2(prices: number[]): number {
+// Two pointers
+// Time: O(n), Space: O(1)
+function maxProfit2(prices: number[]): number {
+  let left = 0;
+  let right = 1;
   let maxProfit = 0;
-  let minPrice = prices[0];
-  for (let i = 1; i < prices.length; i++) {
-    if (prices[i] < minPrice) {
-      minPrice = prices[i];
+  while (left < prices.length && right < prices.length) {
+    if (prices[right] > prices[left]) {
+      maxProfit = Math.max(maxProfit, prices[right] - prices[left]);
+    } else if (prices[right] < prices[left]) {
+      left = right;
     }
-
-    if (prices[i] - minPrice > maxProfit) {
-      maxProfit = prices[i] - minPrice;
-    }
+    right++;
   }
   return maxProfit;
 }
