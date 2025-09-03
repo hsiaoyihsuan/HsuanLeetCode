@@ -1,18 +1,17 @@
 // 102. Binary Tree Level Order Traversal
-/**
- * Definition for a binary tree node.
- * class TreeNode {
- *     val: number
- *     left: TreeNode | null
- *     right: TreeNode | null
- *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
- *         this.val = (val===undefined ? 0 : val)
- *         this.left = (left===undefined ? null : left)
- *         this.right = (right===undefined ? null : right)
- *     }
- * }
- */
+class TreeNode {
+  val: number;
+  left: TreeNode | null;
+  right: TreeNode | null;
+  constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+    this.val = val === undefined ? 0 : val;
+    this.left = left === undefined ? null : left;
+    this.right = right === undefined ? null : right;
+  }
+}
 
+// BFS
+// Time: O(n), Space: O(w)
 function levelOrder(root: TreeNode | null): number[][] {
   if (!root) return [];
 
@@ -23,7 +22,7 @@ function levelOrder(root: TreeNode | null): number[][] {
     const level: number[] = [];
     const queueSize = queue.length;
     for (let i = 0; i < queueSize; i++) {
-      const node = queue.shift();
+      const node = queue.shift()!;
       level.push(node.val);
       if (node.left) queue.push(node.left);
       if (node.right) queue.push(node.right);
