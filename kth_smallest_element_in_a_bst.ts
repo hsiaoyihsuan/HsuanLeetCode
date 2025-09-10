@@ -1,5 +1,5 @@
 // 230. Kth Smallest Element in a BST
-class TreeNode {
+export class TreeNode {
   val: number;
   left: TreeNode | null;
   right: TreeNode | null;

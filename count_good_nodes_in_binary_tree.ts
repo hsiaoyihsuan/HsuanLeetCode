@@ -1,5 +1,5 @@
 // 1448. Count Good Nodes in Binary Tree
-class TreeNode {
+export class TreeNode {
   val: number;
   left: TreeNode | null;
   right: TreeNode | null;
