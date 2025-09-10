@@ -1,5 +1,5 @@
 // 235. Lowest Common Ancestor of a Binary Search Tree
-class TreeNode {
+export class TreeNode {
   val: number;
   left: TreeNode | null;
   right: TreeNode | null;

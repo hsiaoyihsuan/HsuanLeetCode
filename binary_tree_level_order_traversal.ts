@@ -1,5 +1,5 @@
 // 102. Binary Tree Level Order Traversal
-class TreeNode {
+export class TreeNode {
   val: number;
   left: TreeNode | null;
   right: TreeNode | null;
