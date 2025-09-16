@@ -34,10 +34,8 @@ class Trie {
   }
 
   search(word: string): boolean {
-    const chars = word.split("");
-
     let node = this.root;
-    for (const char of chars) {
+    for (const char of word) {
       if (!node.children.has(char)) return false;
 
       node = node.children.get(char)!;
@@ -47,10 +45,8 @@ class Trie {
   }
 
   startsWith(prefix: string): boolean {
-    const chars = prefix.split("");
-
     let node = this.root;
-    for (const char of chars) {
+    for (const char of prefix) {
       if (!node.children.has(char)) return false;
 
       node = node.children.get(char)!;
