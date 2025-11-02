@@ -1,0 +1,21 @@
+# Node.js and pnpm
+node_modules/
+.pnpm-store/
+
+# TypeScript build output
+dist/
+build/
+*.js
+*.d.ts
+*.map
+
+# Editor and IDE files
+.vscode/
+
+# Logs and temporary files
+npm-debug.log*
+.DS_Store
+tmp/
+
+# Environment variables
+.env
