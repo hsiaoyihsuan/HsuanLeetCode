@@ -90,3 +90,32 @@ class KthLargest {
     return this.minHeap.peek()!;
   }
 }
+
+// Use LeetCode existing Heap lib
+import {MinPriorityQueue} from "@datastructures-js/priority-queue";
+class KthLargest2 {
+  private minHeap: MinPriorityQueue<number>;
+  private k: number;
+
+  constructor(k: number, nums: number[]) {
+    this.minHeap = new MinPriorityQueue();
+    this.k = k;
+
+    for (const num of nums) {
+      this.minHeap.enqueue(num);
+    }
+
+    while (this.minHeap.size() > k) {
+      this.minHeap.dequeue();
+    }
+  }
+
+  add(val: number): number {
+    this.minHeap.enqueue(val);
+
+    while (this.minHeap.size() > this.k) {
+      this.minHeap.dequeue();
+    }
+    return this.minHeap.front()!;
+  }
+}
