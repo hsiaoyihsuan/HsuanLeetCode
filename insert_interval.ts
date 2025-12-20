@@ -1,4 +1,5 @@
 // 57. Insert Interval
+// Linear search. Time: O(n), Space: O(1)
 function insert(intervals: number[][], newInterval: number[]): number[][] {
   const result: number[][] = [];
 
