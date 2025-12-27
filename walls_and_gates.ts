@@ -68,23 +68,22 @@ function wallsAndGatesV2(grid: number[][]) {
   const rows = grid.length;
   const cols = grid[0].length;
   const queue: number[][] = [];
-  const visited = Array.from({length: rows}, () => new Array(cols).fill(false));
 
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       if (grid[r][c] === 0) {
         queue.push([r, c]);
-        visited[r][c] = true;
       }
     }
   }
 
   let distance = 0;
   while (queue.length > 0) {
+    distance++;
+
     const size = queue.length;
     for (let i = 0; i < size; i++) {
       const [r, c] = queue.shift()!;
-      grid[r][c] = distance;
 
       for (const [dr, dc] of [
         [1, 0],
@@ -99,17 +98,15 @@ function wallsAndGatesV2(grid: number[][]) {
           newC < 0 ||
           newR >= rows ||
           newC >= cols ||
-          visited[newR][newC] ||
           grid[newR][newC] !== INF
         ) {
           continue;
         }
 
         queue.push([newR, newC]);
-        visited[newR][newC] = true;
+        grid[newR][newC] = distance;
       }
     }
-    distance++;
   }
 
   return grid;
