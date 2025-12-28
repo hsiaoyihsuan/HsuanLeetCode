@@ -134,48 +134,36 @@ function findRedundantConnectionOptimalDFS(edges: number[][]): number[] {
 // - If two nodes already have the same root, adding this edge creates a cycle
 // - That edge is the redundant one
 //
-// Time: O(E * α(V)) ≈ O(E)
+// Time: O(V + E * α(V)) ≈ O(V + E)
 // Space: O(V)
 function findRedundantConnectionUnionFind(edges: number[][]): number[] {
-  // parent[x] = parent of x (or itself if x is root)
   const parent = new Map<number, number>();
-  // rank[x] = approx tree height for union by rank
   const rank = new Map<number, number>();
 
-  // Initialize Union-Find
-  // Nodes are labeled from 1 to n (n === edges.length)
   for (let i = 1; i <= edges.length; i++) {
     parent.set(i, i);
     rank.set(i, 0);
   }
 
-  // Find with path compression
-  // Returns the root of the set containing n
-  function find(n: number): number {
-    // If n is not its own parent, recursively find root
-    // and compress the path
-    if (parent.get(n)! !== n) {
-      parent.set(n, find(parent.get(n)!));
+  function find(x: number): number {
+    while (x !== parent.get(x)!) {
+      parent.set(x, parent.get(parent.get(x)!)!);
+      x = parent.get(x)!;
     }
-    return parent.get(n)!;
+    return x;
   }
 
-  // Union by rank
-  // Returns false if n1 and n2 are already connected (cycle detected)
   function union(n1: number, n2: number): boolean {
     const root1 = find(n1);
     const root2 = find(n2);
 
-    // Same root → cycle
     if (root1 === root2) return false;
 
-    // Attach smaller rank tree under larger rank tree
     if (rank.get(root1)! > rank.get(root2)!) {
       parent.set(root2, root1);
     } else if (rank.get(root2)! > rank.get(root1)!) {
       parent.set(root1, root2);
     } else {
-      // Same rank → pick one and increase rank
       parent.set(root2, root1);
       rank.set(root1, rank.get(root1)! + 1);
     }
@@ -183,14 +171,11 @@ function findRedundantConnectionUnionFind(edges: number[][]): number[] {
     return true;
   }
 
-  // Process edges in order
   for (const [u, v] of edges) {
-    // If union fails, this edge forms a cycle
     if (!union(u, v)) {
-      return [u, v];
+      return [u, v]; // redundant edge found
     }
   }
 
-  // Problem guarantees one redundant edge exists
   return [];
 }
