@@ -1,5 +1,7 @@
 // 323. Number of Connected Components in an Undirected Graph
-// DFS. Time: O(V + E), Space: O(V + E)
+// DFS (Depth-First Search)
+// Time: O(V + E) — visit each node and edge once
+// Space: O(V + E) — recursion stack + adjacency list
 function countComponents(n: number, edges: number[][]) {
   const graph = new Map<number, number[]>(
     Array.from({length: n}, (_, i) => [i, []])
@@ -31,8 +33,11 @@ function countComponents(n: number, edges: number[][]) {
   return total;
 }
 
-// Unioin Find
-// Time: O(V+(E∗α(V))), Space: O(V)
+// Union-Find (Disjoint Set Union)
+// Time: O(V + E · α(V))
+//   - O(V) to initialize parent and rank arrays
+//   - O(E · α(V)) for union/find operations with path compression
+// Space: O(V) for parent and rank storage
 function countComponentsByUnionFind(n: number, edges: number[][]) {
   const pair = new Map();
   const rank = new Map();
@@ -42,12 +47,9 @@ function countComponentsByUnionFind(n: number, edges: number[][]) {
   }
 
   function find(node: number): number {
-    const parent = pair.get(node);
-
-    if (parent !== node) {
-      const root = find(parent);
-      pair.set(node, root);
-      return root;
+    while (node !== pair.get(node)!) {
+      pair.set(node, pair.get(pair.get(node)!)!);
+      node = pair.get(node)!;
     }
 
     return node;
