@@ -1,6 +1,6 @@
 // 198. House Robber
 // Exceed Time Limit
-function rob(nums: number[]): number {
+export function rob(nums: number[]): number {
   const map = new Map<number, number>();
 
   function findMax(i: number): number {
