@@ -1,7 +1,59 @@
 // 322. Coin Change
-// Use DP. Time: O(n * m), Space: O(n)
-// n = amount, m = number of coin types
+/**
+ * Key Notes:
+ * - Greedy does NOT always work
+ *   Example: 6 → greedy [4,1,1], optimal [3,3]
+ * - Use -1 to represent "cannot form the amount"
+ * - Always skip invalid sub-results (-1)
+ */
+
+// Method 1: Recursion (Brute Force)
+// Time: O(coins.length ^ amount), Space: O(amount)
 function coinChange(coins: number[], amount: number): number {
+  if (amount === 0) return 0;
+  if (amount < 0) return -1;
+
+  let min = Infinity;
+
+  for (const coin of coins) {
+    const res = coinChange(coins, amount - coin);
+    if (res === -1) continue;
+
+    min = Math.min(min, res + 1);
+  }
+
+  return min === Infinity ? -1 : min;
+}
+
+// Method 2: DP (Top-down / Memoization)
+// Time: O(amount × coins.length), Space: O(amount)
+function coinChange2(coins: number[], amount: number): number {
+  const memo = new Map<number, number>();
+
+  function dfs(amount: number): number {
+    if (memo.has(amount)) return memo.get(amount)!;
+    if (amount === 0) return 0;
+    if (amount < 0) return -1;
+
+    let min = Infinity;
+
+    for (const coin of coins) {
+      const res = dfs(amount - coin);
+      if (res === -1) continue;
+
+      min = Math.min(min, res + 1);
+    }
+
+    memo.set(amount, min === Infinity ? -1 : min);
+    return memo.get(amount)!;
+  }
+
+  return dfs(amount);
+}
+
+// Method 3: DP (Bottom-up)
+// Time: O(amount × coins.length), Space: O(amount)
+function coinChange3(coins: number[], amount: number): number {
   const dp = new Array(amount + 1).fill(Infinity);
   dp[0] = 0;
 
