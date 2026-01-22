@@ -1,7 +1,22 @@
 // 152. Maximum Product Subarray
-// Time: O(n). Space: O(1).
-// Dynamic programming. Record the maximum and minimum product at each index.
+// Recursion
+// Time: O(n^2), Space: O(1)
 function maxProduct(nums: number[]): number {
+  let result = nums[0];
+  for (let i = 0; i < nums.length; i++) {
+    let product = 1;
+    for (let j = i; j < nums.length; j++) {
+      product *= nums[j];
+      result = Math.max(result, product);
+    }
+  }
+  return result;
+}
+
+// Kadane's Algorithm
+// Dynamic programming. Record the maximum and minimum product at each index.
+// Time: O(n). Space: O(1).
+function maxProduct2(nums: number[]): number {
   let result = nums[0];
   let curMax = nums[0];
   let curMin = nums[0];
