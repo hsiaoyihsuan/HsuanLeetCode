@@ -1,5 +1,7 @@
 // 11. Container With Most Water
-// Time: O(n)
+// Method: Two-pointer technique
+// Time: O(n) — each element is visited at most once
+// Space: O(1) — only a few variables used
 function maxArea(height: number[]): number {
   let left = 0;
   let right = height.length - 1;
