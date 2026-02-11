@@ -1,5 +1,14 @@
 // 213. House Robber II
-// Time: O(N), Space: O(1)
+
+/**
+ * Houses are arranged in a circle, so the first and last houses cannot both be robbed.
+ * Strategy:
+ * Break the circular problem into two linear problems:
+ * 1. Rob houses from index 0 to n-2
+ * 2. Rob houses from index 1 to n-1
+ * Take the maximum of the two results.
+ * Time: O(N), Space: O(1)
+ */
 function rob(nums: number[]): number {
   function robLinear(nums: number[]): number {
     let rob1 = 0;
@@ -15,8 +24,8 @@ function rob(nums: number[]): number {
   }
 
   return Math.max(
-    robLinear([nums[0]]),
-    robLinear(nums.slice(1)),
-    robLinear(nums.slice(0, -1))
+    robLinear([nums[0]]), // only first house (handles small arrays)
+    robLinear(nums.slice(1)), // exclude first
+    robLinear(nums.slice(0, -1)), // exclude last
   );
 }

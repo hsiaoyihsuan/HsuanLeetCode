@@ -1,4 +1,5 @@
 // 746. Min Cost Climbing Stairs
+// Time: O(n), Space: O(1)
 function minCostClimbingStairs(cost: number[]): number {
   let s1 = cost.at(-2)!;
   let s2 = cost.at(-1)!;

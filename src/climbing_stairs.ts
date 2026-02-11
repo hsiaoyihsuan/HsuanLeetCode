@@ -33,7 +33,7 @@ function climbStairs(n: number): number {
 // This uses dynamic programming to build up the result iteratively.
 // Essentially calculates the nth Fibonacci number.
 // Time Complexity: O(n)
-// Space Complexity: O(1
+// Space Complexity: O(1)
 function climbStairsDP(n: number): number {
   let one = 1;
   let two = 1;
