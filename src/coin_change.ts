@@ -67,3 +67,28 @@ function coinChange3(coins: number[], amount: number): number {
 
   return dp[amount] === Infinity ? -1 : dp[amount];
 }
+
+function coinChange4(coins: number[], amount: number): number {
+  let dp = Array(amount + 1).fill(Infinity);
+  dp[amount] = 0;
+
+  for (let i = coins.length - 1; i >= 0; i--) {
+    let tmp = Array(amount + 1).fill(Infinity);
+    tmp[amount] = 0;
+    for (let j = amount - 1; j >= 0; j--) {
+      tmp[j] = dp[j];
+      if (j + coins[i] < amount + 1) {
+        tmp[j] = Math.min(tmp[j], 1 + tmp[j + coins[i]]);
+      }
+    }
+    dp = tmp;
+  }
+
+  return dp[0] === Infinity ? -1 : dp[0];
+}
+
+//    11 10 ... 2 1 0
+// 1 [0, 0, ...     0]
+// 2 [0, 0, ...     0]
+// 5 [0, 0, ...     0]
+// x [I, I, ...     0]
