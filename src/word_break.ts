@@ -23,26 +23,25 @@ function wordBreak(s: string, wordDict: string[]): boolean {
 //   k = average word length
 // Space: O(n)
 function wordBreak2(s: string, wordDict: string[]): boolean {
-  const memo = new Map<string, boolean>();
+  const cache = Array(s.length).fill(null);
 
-  function dfs(s: string) {
-    if (memo.has(s)) return memo.get(s)!;
-    if (s.length === 0) return true;
+  function dfs(i: number): boolean {
+    if (i === s.length) return true;
+    if (cache[i] !== null) return cache[i];
+
+    const subString = s.slice(i);
 
     for (const word of wordDict) {
-      if (!s.startsWith(word)) continue;
-
-      if (wordBreak(s.slice(word.length), wordDict)) {
-        memo.set(s, true);
+      if (subString.startsWith(word) && dfs(i + word.length)) {
         return true;
       }
     }
 
-    memo.set(s, false);
+    cache[i] = false;
     return false;
   }
 
-  return dfs(s);
+  return dfs(0);
 }
 
 // Method 3: DP (Bottom-up)
