@@ -3,25 +3,25 @@
 // Stack
 function evalRPN(tokens: string[]): number {
   const stack: number[] = [];
+  const operators = new Set(["+", "-", "*", "/"]);
 
   for (const token of tokens) {
-    if (["+", "-", "*", "/"].includes(token)) {
-      stack.push(Number(token));
-      continue;
-    }
-
-    const num1 = stack.pop()!;
-    const num2 = stack.pop()!;
-
-    if (token === "+") {
-      stack.push(num1 + num2);
-    } else if (token === "-") {
-      stack.push(num2 - num1);
-    } else if (token === "*") {
-      stack.push(num1 * num2);
+    if (operators.has(token)) {
+      const num2 = stack.pop()!;
+      const num1 = stack.pop()!;
+      if (token === "+") {
+        stack.push(num1 + num2);
+      } else if (token === "-") {
+        stack.push(num1 - num2);
+      } else if (token === "*") {
+        stack.push(num1 * num2);
+      } else {
+        stack.push(Math.trunc(num1 / num2));
+      }
     } else {
-      stack.push(Math.trunc(num2 / num1));
+      stack.push(Number(token));
     }
   }
-  return stack[0];
+
+  return stack.at(-1)!;
 }
