@@ -1,126 +1,61 @@
 // 155. Min Stack
-class MinStack {
-  private stack: number[];
-  private minIndex: number = -1;
+//
+// Idea:
+// Maintain a normal stack, but each element stores two values:
+// [value, minSoFar]
+//
+// minSoFar records the minimum value of the stack
+// at the moment this element was pushed.
+//
+// Example:
+// push(5) → [5,5]
+// push(3) → [3,3]
+// push(7) → [7,3]
+// push(2) → [2,2]
+//
+// Stack state:
+// [
+//   [5,5],
+//   [3,3],
+//   [7,3],
+//   [2,2]
+// ]
+//
+// getMin() is always the second value of the top element.
+//
+// Time: O(1) for push, pop, top, getMin
+// Space: O(n)
 
-  constructor() {
-    this.stack = [];
-  }
+class MinStack {
+  // Each entry: [value, minSoFar]
+  private stack: [number, number][] = [];
 
   push(val: number): void {
-    this.stack.push(val);
-
-    if (this.minIndex === -1 || val < this.stack[this.minIndex]) {
-      this.minIndex = this.stack.length - 1;
-    }
-  }
-
-  pop(): void {
-    this.stack.pop();
-
+    // If stack is empty, the minimum is the value itself
     if (this.stack.length === 0) {
-      this.minIndex = -1;
+      this.stack.push([val, val]);
       return;
     }
 
-    if (this.minIndex === this.stack.length) {
-      this.minIndex = 0;
-      for (let i = 1; i < this.stack.length; i++) {
-        if (this.stack[i] < this.stack[this.minIndex]) {
-          this.minIndex = i;
-        }
-      }
-    }
-  }
+    // Compare the new value with the previous minimum
+    const prevMin = this.stack.at(-1)![1];
 
-  top(): number {
-    return this.stack.at(-1)!;
-  }
-
-  getMin(): number {
-    return this.stack[this.minIndex];
-  }
-}
-
-// Alternative implementation using a secondary stack to track minimum values
-class MinStack2 {
-  private stack: number[];
-  private minStack: number[];
-
-  constructor() {
-    this.stack = [];
-    this.minStack = [];
-  }
-
-  push(val: number): void {
-    this.stack.push(val);
-    const min =
-      this.minStack.length === 0 ? val : Math.min(this.minStack.at(-1)!, val);
-    this.minStack.push(min);
+    // Store the new minimum together with the value
+    this.stack.push([val, Math.min(prevMin, val)]);
   }
 
   pop(): void {
+    // Remove the top element
     this.stack.pop();
-    this.minStack.pop();
   }
 
   top(): number {
-    return this.stack.at(-1)!;
+    // Return the value of the top element
+    return this.stack.at(-1)![0];
   }
 
   getMin(): number {
-    return this.minStack.at(-1)!;
+    // Return the minimum stored with the top element
+    return this.stack.at(-1)![1];
   }
 }
-
-// Another alternative implementation using a single stack with a trick to store the minimum
-class MinStack3 {
-  private stack: number[];
-  private min = Infinity;
-
-  constructor() {
-    this.stack = [];
-  }
-
-  push(val: number): void {
-    if (this.stack.length === 0) {
-      this.stack.push(0);
-      this.min = val;
-    } else {
-      this.stack.push(val - this.min);
-      this.min = Math.min(this.min, val);
-    }
-  }
-
-  pop(): void {
-    const pop = this.stack.pop()!;
-    if (pop < 0) this.min -= pop;
-  }
-
-  top(): number {
-    const top = this.stack.at(-1)!;
-    return top < 0 ? this.min : this.min + top;
-  }
-
-  getMin(): number {
-    return this.min;
-  }
-}
-
-/**
- * Your MinStack object will be instantiated and called as such:
- * var obj = new MinStack()
- * obj.push(val)
- * obj.pop()
- * var param_3 = obj.top()
- * var param_4 = obj.getMin()
- */
-
-/**
- * Your MinStack object will be instantiated and called as such:
- * var obj = new MinStack()
- * obj.push(val)
- * obj.pop()
- * var param_3 = obj.top()
- * var param_4 = obj.getMin()
- */
