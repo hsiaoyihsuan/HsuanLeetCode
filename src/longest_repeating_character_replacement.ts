@@ -19,7 +19,7 @@ function characterReplacementV1(s: string, k: number): number {
 }
 
 // Optimize the max frequency
-// If the maxCount doesn't change or goes down, the potential best answer doesn't change. We don't need to change the masCount
+// If the maxCount doesn't change or goes down, the potential best answer doesn't change. We don't need to change the maxCount
 // Time: O(n), Space(m), m = 26
 function characterReplacementV2(s: string, k: number): number {
   const map = new Map<string, number>();
