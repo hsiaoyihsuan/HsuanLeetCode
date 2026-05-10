@@ -10,7 +10,8 @@ class TreeNode {
   }
 }
 
-// Time: O(n), Space: O(h), skewed tree: h = n, balanced-tree: h = log(n)
+// Time: O(n)
+// Space: O(h), skewed tree: h = n, balanced-tree: h = log(n)
 function invertTreeDFS(root: TreeNode | null): TreeNode | null {
   if (!root) return null;
 

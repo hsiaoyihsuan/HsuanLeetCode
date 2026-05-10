@@ -1,5 +1,5 @@
 // 104. Maximum Depth of Binary Tree
-class TreeNode {
+export class TreeNode {
   val: number;
   left: TreeNode | null;
   right: TreeNode | null;

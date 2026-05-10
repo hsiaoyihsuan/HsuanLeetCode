@@ -10,10 +10,21 @@ export class TreeNode {
   }
 }
 
-// Time & Space: O(n)
-// Use DFS to calculate the left and right subtree's max value
-// We can decide if with split at the current node or not
-// The subtree should only return the max value without split
+// Method: DFS
+//
+// Idea:
+// - Use DFS to calculate the max path sum each subtree can extend upward
+// - At each node, decide whether the best overall path splits through this node
+// - The value returned to the parent cannot split; it can only choose one side
+// - Ignore negative child sums because they would make the path smaller
+//
+// Time: O(n)
+// - Each node is visited once
+//
+// Space: O(h)
+// - recursion stack depends on tree height
+// - skewed tree: O(n)
+// - balanced tree: O(log n)
 function maxPathSum(root: TreeNode | null): number {
   let result = -Infinity;
 

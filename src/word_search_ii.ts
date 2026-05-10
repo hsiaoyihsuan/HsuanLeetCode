@@ -1,5 +1,5 @@
 // 212. Word Search II
-class TrieNode {
+export class TrieNode {
   children: Map<string, TrieNode>;
   isEnd: boolean;
 
@@ -28,6 +28,27 @@ class Trie {
   }
 }
 
+// Method: Trie + DFS Backtracking
+//
+// Idea:
+// - Build a Trie from words so DFS can stop early when a prefix does not exist
+// - Start DFS from every board cell
+// - Track visited cells to avoid reusing the same cell in one word path
+// - Add a word to the result when the current Trie node marks the end of a word
+//
+// Time: O(m * n * 4 * 3^(t - 1) + s)
+// - m is the number of rows
+// - n is the number of columns
+// - t is the maximum length of any word in words
+// - s is the sum of all word lengths
+// - O(s) builds the Trie
+// - Each DFS starts with up to 4 directions, then up to 3 directions after that
+//
+// Space: O(s + m * n + t)
+// - O(s) for the Trie that stores all words
+// - O(m * n) for the visited matrix in this implementation
+// - O(t) for DFS recursion depth
+// - If board cells are marked in-place instead of using visited, this becomes O(s + t)
 function findWords(board: string[][], words: string[]): string[] {
   const m = board.length;
   const n = board[0].length;

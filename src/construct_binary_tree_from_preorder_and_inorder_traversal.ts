@@ -10,27 +10,48 @@ export class TreeNode {
   }
 }
 
-// DFS
-// TIme: O(n^2), Space: O(n)
+// Method: DFS
+//
+// Idea:
+// - preorder: root -> left -> right
+// - inorder:  left -> root -> right
+// - First value in preorder is always the root
+// - Find root position in inorder to split left/right subtree
+//
+// Time: O(n²)
+// - Each recursive call searches inorder linearly
+//
+// Space: O(h)
+// - recursion stack
+// - skewed tree: O(n)
+// - balanced tree: O(log n)
 function buildTree(preorder: number[], inorder: number[]): TreeNode | null {
-  if (!preorder.length || !inorder.length) return null;
+  if (preorder.length === 0 || inorder.length === 0) return null;
 
-  const rootVal = preorder[0];
-  const rootIndex = inorder.indexOf(rootVal);
-  const leftTree = buildTree(
-    preorder.slice(1, rootIndex + 1),
-    inorder.slice(0, rootIndex)
-  );
-  const rightTree = buildTree(
-    preorder.slice(rootIndex + 1),
-    inorder.slice(rootIndex + 1)
-  );
-
-  return new TreeNode(rootVal, leftTree, rightTree);
+  const root = new TreeNode(preorder[0]);
+  const mid = inorder.indexOf(root.val);
+  root.left = buildTree(preorder.slice(1, 1 + mid), inorder.slice(0, mid));
+  root.right = buildTree(preorder.slice(1 + mid), inorder.slice(1 + mid));
+  return root;
 }
 
-// DFS + Hash Map
-// Time: O(n), Space: O(n)
+// Method: DFS + Hash Map
+//
+// Idea:
+// - Values are unique, so map each inorder value to its index
+// - Keep a preorder index to visit roots in preorder order
+// - Use left/right boundaries in inorder to describe the current subtree
+// - For each root, split inorder into left and right subtree ranges
+//
+// Time: O(n)
+// - Build the map once
+// - Each node is visited once
+//
+// Space: O(n)
+// - Hash map stores every inorder value
+// - recursion stack
+// - skewed tree: O(n)
+// - balanced tree: O(log n)
 function buildTree2(preorder: number[], inorder: number[]) {
   const map = new Map();
   inorder.forEach((val, i) => map.set(val, i));

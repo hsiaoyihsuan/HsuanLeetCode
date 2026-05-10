@@ -13,7 +13,11 @@ export class TreeNode {
 // DFS. Preorder Traversal
 // Time: O(n), Space: O(h)
 function isValidBST(root: TreeNode | null): boolean {
-  function isValid(node: TreeNode | null, left: number, right: number) {
+  function isValid(
+    node: TreeNode | null,
+    left: number,
+    right: number,
+  ): boolean {
     if (!node) return true;
 
     if (node.val <= left || node.val >= right) return false;

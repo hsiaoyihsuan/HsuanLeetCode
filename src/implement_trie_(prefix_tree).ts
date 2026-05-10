@@ -20,10 +20,8 @@ class Trie {
   }
 
   insert(word: string): void {
-    const chars = word.split("");
-
     let node = this.root;
-    for (const char of chars) {
+    for (const char of word) {
       if (!node.children.has(char)) {
         node.children.set(char, new TrieNode());
       }
