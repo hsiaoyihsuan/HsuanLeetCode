@@ -8,6 +8,9 @@ class ListNode {
 }
 
 // 142. Linked List Cycle II
+// Method: Floyd's Tortoise and Hare
+// Move slow by 1 and fast by 2; if they meet, a cycle exists
+// Move one pointer from head and one from meeting point to find cycle start
 // Time: O(n), Space: O(1)
 function detectCycle(head: ListNode | null): ListNode | null {
   let slow = head;

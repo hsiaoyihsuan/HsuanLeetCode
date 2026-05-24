@@ -1,6 +1,20 @@
 // 131. Palindrome Partitioning
-// Backtracking
-// Time: O(n x 2^n), Space: O(n)
+// Method: DFS Backtracking
+//
+// Idea:
+// - Build the current substring one character at a time
+// - When the current substring is a palindrome, choose it as the next partition
+// - Also explore the branch that keeps extending the current substring
+// - Save the path only when all characters are used and no substring is left open
+//
+// Time: O(n^2 x 2^n)
+// - there are O(2^n) ways to cut between characters
+// - each palindrome check can cost O(n)
+// - copying a valid partition can cost O(n)
+//
+// Space: O(n x 2^n)
+// - output can store O(2^n) partitions with up to n strings each
+// - current path and recursion stack cost O(n)
 function partition(s: string): string[][] {
   const result: string[][] = [];
   let cur: string[] = [];
@@ -40,7 +54,22 @@ function partition(s: string): string[][] {
   return result;
 }
 
-// Refined backtracking
+// Method: DFS Backtracking
+//
+// Idea:
+// - Treat i as the start index of the next substring
+// - Try every end index j from i to the end of the string
+// - Recurse only when s[i..j] is a palindrome
+// - Backtrack by removing the chosen substring before trying the next end index
+//
+// Time: O(n^2 x 2^n)
+// - there are O(2^n) possible partitions
+// - each palindrome check can cost O(n)
+// - copying a valid partition can cost O(n)
+//
+// Space: O(n x 2^n)
+// - output can store O(2^n) partitions with up to n strings each
+// - current path and recursion stack cost O(n)
 function partition2(s: string): string[][] {
   const result: string[][] = [];
   let cur: string[] = [];

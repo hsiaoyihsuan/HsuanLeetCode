@@ -1,7 +1,20 @@
 // 79. Word Search
-// Backtracking (DFS with visited tracking)
-// Time: O(m x n x 4^l), where m × n is the board size and l is the word length
-// Space: O(l) for recursion depth
+// Method: DFS Backtracking
+//
+// Idea:
+// - Try every board cell as the starting point
+// - From each matched cell, search its four neighbors for the next character
+// - Mark the current cell as visited so one path cannot reuse it
+// - Backtrack by unmarking the cell when the path does not find the word
+//
+// Time: O(m x n x 4^l)
+// - m x n is the board size
+// - l is the word length
+// - each starting cell can branch in up to 4 directions
+//
+// Space: O(m x n)
+// - visited stores one boolean for each board cell
+// - recursion stack costs O(l)
 function exist(board: string[][], word: string): boolean {
   const rows = board.length;
   const cols = board[0].length;

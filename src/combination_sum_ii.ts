@@ -1,7 +1,20 @@
 // 40. Combination Sum II
-// Time: O(2^n) — each element has two choices (include or skip)
-// Space: O(target) — recursion depth limited by sum to target
-// Approach: Backtracking using a decision tree
+// Method: DFS Backtracking
+//
+// Idea:
+// - Sort candidates so duplicate values are adjacent
+// - Use a decision tree where each candidate can be used at most once
+// - Include the current candidate, then move to the next index
+// - Skip all duplicate copies before exploring the exclude branch
+//
+// Time: O(n x 2^n)
+// - sorting costs O(n log n)
+// - each candidate can be included or skipped
+// - copying a valid combination costs up to O(n)
+//
+// Space: O(k x n)
+// - k is the number of valid combinations stored in the output
+// - current path and recursion stack cost O(n)
 function combinationSum2(candidates: number[], target: number): number[][] {
   candidates.sort((a, b) => a - b);
   const result: number[][] = [];

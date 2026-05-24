@@ -1,11 +1,21 @@
 // 39. Combination Sum
-// Time: O(2^n) — each element has two choices (include or skip)
-// Space: O(target) — recursion depth limited by sum to target
-// Approach: Backtracking using a decision tree
-// At each step, decide to:
-// - Include the current candidate (can reuse it, so keep index)
-// - Skip the current candidate (move to next index)
-
+// Method: DFS Backtracking
+//
+// Idea:
+// - Use a decision tree for each candidate
+// - Include the current candidate and stay at the same index so it can be reused
+// - Skip the current candidate and move to the next index
+// - Stop when the running sum reaches target or becomes too large
+//
+// Time: O(2^(n + t / m))
+// - n is the number of candidates
+// - t is target
+// - m is the smallest candidate value
+// - the path can include at most t / m numbers before exceeding target
+//
+// Space: O(k x t / m)
+// - k is the number of valid combinations stored in the output
+// - current path and recursion stack cost O(t / m)
 function combinationSum(candidates: number[], target: number): number[][] {
   const result: number[][] = [];
 
