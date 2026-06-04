@@ -1,38 +1,45 @@
 // 128. Longest Consecutive Sequence
-// My first try. Time Limit Exceeded!!
+//
+// Method 1: Sorting
+// Idea:
+// - Remove duplicates first
+// - Sort numbers in ascending order
+// - Track the current consecutive window
+// Time: O(n log n)
+// Space: O(n)
 function longestConsecutive(nums: number[]): number {
-  const set = new Set<number>(nums);
-  let minNum = Infinity;
-  let maxNum = -Infinity;
-  for (const num of nums) {
-    minNum = Math.min(minNum, num);
-    maxNum = Math.max(maxNum, num);
-  }
+  if (nums.length === 0) return 0;
 
-  let maxLength = 0;
-  let currentLength = 0;
-  for (let num = minNum; num <= maxNum; num++) {
-    if (set.has(num)) {
-      currentLength++;
-      maxLength = Math.max(maxLength, currentLength);
+  const uniqNums = Array.from(new Set(nums)).sort((a, b) => a - b);
+  let result = 1;
+  let l = 0;
+  for (let r = 1; r < uniqNums.length; r++) {
+    if (uniqNums[r] === uniqNums[r - 1] + 1) {
+      result = Math.max(result, r - l + 1);
     } else {
-      currentLength = 0;
+      l = r;
     }
   }
-
-  return maxLength;
+  return result;
 }
 
+// Method 2: Hash Set
+// Idea:
+// - Put all numbers into a set
+// - Only start counting from numbers that have no previous number
+// - Expand forward to find the full consecutive length
+// Time: O(n)
+// Space: O(n)
 function longestConsecutive2(nums: number[]): number {
-  const set = new Set<number>(nums);
+  const uniq = new Set<number>(nums);
 
   let maxLength = 0;
-  for (let num of set) {
-    // If it is the start of a sequence
-    if (set.has(num - 1)) continue;
+  for (let num of uniq) {
+    // Skip if this number is not the start of a sequence
+    if (uniq.has(num - 1)) continue;
 
     let currentNum = num;
-    while (set.has(currentNum)) {
+    while (uniq.has(currentNum)) {
       currentNum++;
     }
     maxLength = Math.max(maxLength, currentNum - num);
