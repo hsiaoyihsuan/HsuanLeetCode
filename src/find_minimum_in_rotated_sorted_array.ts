@@ -1,37 +1,22 @@
 // 153. Find Minimum in Rotated Sorted Array
-// O(log n)
-// Version 1
-function findMinV1(nums: number[]): number {
-  let left = 0;
-  let right = nums.length - 1;
-
-  while (left <= right) {
-    const mid = Math.floor((left + right) / 2);
-    // minimum is in the left half (including mid)
-    if (nums[mid] < nums[right]) {
-      right = mid;
+//
+// Method: Binary Search
+// Idea:
+// - Compare middle value with right value
+// - If nums[m] > nums[r], the minimum is on the right side
+// - Otherwise, the minimum is at m or on the left side
+// Time: O(log n)
+// Space: O(1)
+function findMin(nums: number[]): number {
+  let l = 0;
+  let r = nums.length - 1;
+  while (l < r) {
+    const m = Math.floor((l + r) / 2);
+    if (nums[m] > nums[r]) {
+      l = m + 1;
     } else {
-      // minimum is in the right half
-      left = mid + 1;
+      r = m;
     }
   }
-  return nums[right];
-}
-
-// Version 2
-function findMinV2(nums: number[]): number {
-  if (nums.length === 1) return nums[0];
-
-  let left = 0;
-  let right = nums.length - 1;
-
-  while (left < right) {
-    const mid = Math.floor((left + right) / 2);
-    if (nums[mid] < nums[right]) {
-      right = mid;
-    } else {
-      left = mid + 1;
-    }
-  }
-  return nums[left];
+  return nums[l];
 }

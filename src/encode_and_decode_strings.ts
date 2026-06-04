@@ -17,6 +17,7 @@ function decode(str: string): string[] {
     result.push(str.slice(j + 1, j + 1 + size));
     i = j + 1 + size;
   }
+
   return result;
 }
 
