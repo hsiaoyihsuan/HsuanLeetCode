@@ -17,15 +17,12 @@ function removeDuplicates(nums: number[]): number {
 
 // Time: O(n), Space: O(1)
 function removeDuplicates2(nums: number[]): number {
-  if (nums.length === 0) return 0;
-
-  let left = 0;
-  for (let right = 0; right < nums.length; right++) {
-    if (nums[left - 1] !== nums[right]) {
-      nums[left] = nums[right];
-      left++;
+  let l = 0;
+  for (let r = 0; r < nums.length; r++) {
+    if (r === nums.length - 1 || nums[r] !== nums[r + 1]) {
+      nums[l] = nums[r];
+      l++;
     }
   }
-
-  return left;
+  return l;
 }

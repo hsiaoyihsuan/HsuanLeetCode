@@ -19,6 +19,11 @@ function findDuplicate(nums: number[]): number {
   }
 }
 
+// ex:
+// n = 3
+// i [0, 1, 2, 3]
+// v [1, 2, 3, 1]
+
 function findDuplicate2(nums: number[]): number {
   let slow = 0;
   let fast = 0;

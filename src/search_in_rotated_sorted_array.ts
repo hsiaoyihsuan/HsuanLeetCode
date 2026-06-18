@@ -1,6 +1,6 @@
 // 33. Search in Rotated Sorted Array
+// Method: Binary Search
 // Time: O(log n), Space: O(1)
-// Binary Search
 function search(nums: number[], target: number): number {
   let left = 0;
   let right = nums.length - 1;

@@ -1,22 +1,33 @@
 // 20. Valid Parentheses
-// Version 1
-function isValidV1(s: string): boolean {
-  const bracketPairs = {
-    "(": ")",
-    "[": "]",
-    "{": "}",
-  };
-
+//
+// Method: Stack
+// Idea:
+// - Push opening brackets onto the stack
+// - For each closing bracket, check if it matches the latest opening bracket
+// - The string is valid only if all brackets are matched
+// Time: O(n)
+// Space: O(n)
+function isValid(s: string): boolean {
   const stack: string[] = [];
-  for (const char of [...s]) {
-    if (char in bracketPairs) {
+  const pairs: Record<string, string> = {
+    ")": "(",
+    "]": "[",
+    "}": "{",
+  };
+  const set = new Set(["(", "[", "{"]);
+
+  for (const char of s) {
+    if (set.has(char)) {
       stack.push(char);
-    } else {
-      const lastBracket = stack.pop();
-      if (bracketPairs[lastBracket] !== char) {
-        return false;
-      }
+      continue;
     }
+
+    const left = pairs[char]!;
+    if (stack[stack.length - 1] !== left) {
+      return false;
+    }
+
+    stack.pop()!;
   }
 
   return stack.length === 0;
