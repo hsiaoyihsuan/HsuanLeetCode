@@ -2,41 +2,44 @@
 // Time: O(V+E). Space: O(V+E)
 function canFinish(numCourses: number, prerequisites: number[][]): boolean {
   const graph = new Map<number, number[]>();
-  for (const [a, b] of prerequisites) {
-    if (!graph.has(a)) graph.set(a, []);
-    graph.get(a)!.push(b);
+
+  for (let i = 0; i < numCourses; i++) {
+    graph.set(i, []);
   }
 
-  function hasCycle(
-    graph: Map<number, number[]>,
-    start: number,
-    visited: Set<number>
-  ): boolean {
-    if (visited.has(start)) return true;
+  prerequisites.forEach(([a, b]) => graph.get(a)!.push(b));
 
-    visited.add(start);
-    for (const neighbor of graph.get(start) ?? []) {
-      if (hasCycle(graph, neighbor, visited)) return true;
+  const visited = new Set<number>();
+  const visiting = new Set<number>();
+
+  function canFinish(course: number): boolean {
+    if (visiting.has(course)) {
+      return false;
     }
 
-    visited.delete(start);
-    graph.delete(start);
-    return false;
+    if (visited.has(course)) {
+      return true;
+    }
+
+    visiting.add(course);
+
+    for (const neighbor of graph.get(course) ?? []) {
+      if (!canFinish(neighbor)) {
+        return false;
+      }
+    }
+
+    visited.add(course);
+    visiting.delete(course);
+
+    return true;
   }
 
-  for (const key of graph.keys()) {
-    if (hasCycle(graph, key, new Set<number>())) return false;
+  for (let i = 0; i < numCourses; i++) {
+    if (!canFinish(i)) {
+      return false;
+    }
   }
 
   return true;
 }
-
-const numCourses = 5;
-const prerequisites = [
-  [1, 4],
-  [2, 4],
-  [3, 1],
-  [3, 2],
-];
-
-console.log(canFinish(numCourses, prerequisites));

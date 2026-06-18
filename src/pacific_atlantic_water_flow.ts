@@ -21,10 +21,10 @@ function pacificAtlanticV1(heights: number[][]): number[][] {
   function searchOcean(
     i: number,
     j: number,
-    target: [number, number]
+    target: [number, number],
   ): boolean {
     const visited: boolean[][] = Array.from({length: rows}, () =>
-      Array(cols).fill(false)
+      Array(cols).fill(false),
     );
     const queue: [number, number][] = [[i, j]];
     visited[i][j] = true;
@@ -65,19 +65,15 @@ function pacificAtlanticV1(heights: number[][]): number[][] {
 
 // Version 2: Strating from the edges, use DFS to find the points in the opposite way.
 // Time: O(M x N). Space: O(M x N) for pacific and atlantic. O(M + N) for DFS
-function pacificAtlanticV2(heights: number[][]): number[][] {
+function pacificAtlantic2(heights: number[][]): number[][] {
   const rows = heights.length;
   const cols = heights[0].length;
-  const pacific = Array.from({length: rows}, () => Array(cols).fill(false));
-  const atlantic = Array.from({length: rows}, () => Array(cols).fill(false));
-  const result: [number, number][] = [];
+  const pacific = Array.from({length: rows}, () => new Array(cols).fill(false));
+  const atlantic = Array.from({length: rows}, () =>
+    new Array(cols).fill(false),
+  );
 
-  function dfs(
-    r: number,
-    c: number,
-    visited: boolean[][],
-    prevHeight: number
-  ): void {
+  function dfs(r: number, c: number, visited: boolean[][], prevHeight: number) {
     if (
       r < 0 ||
       c < 0 ||
@@ -90,24 +86,24 @@ function pacificAtlanticV2(heights: number[][]): number[][] {
     }
 
     visited[r][c] = true;
-    for (const [dr, dc] of [
-      [1, 0],
-      [-1, 0],
-      [0, 1],
-      [0, -1],
-    ]) {
-      dfs(r + dr, c + dc, visited, heights[r][c]);
-    }
+
+    dfs(r + 1, c, visited, heights[r][c]);
+    dfs(r - 1, c, visited, heights[r][c]);
+    dfs(r, c + 1, visited, heights[r][c]);
+    dfs(r, c - 1, visited, heights[r][c]);
   }
 
   for (let r = 0; r < rows; r++) {
-    dfs(r, 0, pacific, heights[r][0]); // Left column (Pacific)
-    dfs(r, cols - 1, atlantic, heights[r][cols - 1]); // Right column (Atlantic)
+    dfs(r, 0, pacific, 0);
+    dfs(r, cols - 1, atlantic, 0);
   }
+
   for (let c = 0; c < cols; c++) {
-    dfs(0, c, pacific, heights[0][c]); // Top row (Pacific)
-    dfs(rows - 1, c, atlantic, heights[rows - 1][c]); // Bottom row (Atlantic)
+    dfs(0, c, pacific, 0);
+    dfs(rows - 1, c, atlantic, 0);
   }
+
+  const result: number[][] = [];
 
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
@@ -116,5 +112,6 @@ function pacificAtlanticV2(heights: number[][]): number[][] {
       }
     }
   }
+
   return result;
 }
